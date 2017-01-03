@@ -66,3 +66,7 @@ body {
     float: right;
     width:48%;
 }
+#transTable {
+    margin-left:auto;
+    margin-right:auto;
+}

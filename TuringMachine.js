@@ -10,24 +10,40 @@ function generateTransFunc() {
     generateFinalStates();
 
     blank = "-";
-    var i, j, s = "";
+    var i, j, s = "", k = "";
     var t = document.createElement("table");
-    t.style.border = "1px solid black";
-    var k = "<select>";
-    k += "<option value='b'>-</option>";
+    t.setAttribute("id", "transTable");
+
+    //setting the header part of the table
+    s += "<tr><th>States</th>";
     for(i = 0; i < tapeAlphabets.length; i++) {
-        k += "<option value=" + tapeAlphabets[i] + ">" + tapeAlphabets[i] + "</option>";
+        s += "<th>" + tapeAlphabets[i] + "</th>";
+    }
+    s += "<th>-</th></tr>";
+
+    //preparing the options
+    k = "<select>";
+    k += "<option value='b'>-</option>";
+    for(i = 0; i < states.length; i++) {
+        for(j = 0; j < tapeAlphabets.length; j++) {
+            k += "<option value=" + states[i] + tapeAlphabets[j] + "L>" + states[i] + ", " + tapeAlphabets[j] + ", L</option>";
+            k += "<option value=" + states[i] + tapeAlphabets[j] + "R>" + states[i] + ", " + tapeAlphabets[j] + ", R</option>";
+        }
     }
     k += "</select>"
+
     for(i = 0; i < states.length; i++) {
         s += "<tr>";
+        s += "<td>" + states[i] + "</td>";
         for(j = 0; j <= tapeAlphabets.length; j++) {
             s += "<td>" + k + "</td>"
         }
         s += "</tr>";
     }
+
     t.innerHTML = s;
     document.getElementById("transitionFunction").appendChild(t);
+    t.style.border = "1px solid black";
 }
 function generateStates() {
     var i, j, s;
