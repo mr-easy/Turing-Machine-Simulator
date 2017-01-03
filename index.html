@@ -1,0 +1,66 @@
+<!doctype HTML>
+<HTML>
+    <HEAD>
+        <link rel="stylesheet" href="TuringMachine.css">
+        <title>Turing Machine Simulator</title>
+        <meta name="description" content="Turing Machine Simulator">
+        <meta name="author" content="Rishabh Gupta">
+    </HEAD>
+    <BODY>
+        <div id="info">
+            <p><h1 align="center">TURING MACHINE SIMULATOR</h1></p>
+            <p>
+            Turing machine can be formally defined as a 7-tuple <b>M = {Q, &Gamma;, b, &Sigma;, &delta;, q<sub>0</sub>, F}</b>  where
+            <ul>
+                <li><b>Q</b> is a finite, non-empty set of states.</li>
+                <li><b>&Gamma;</b> is a finite, non-empty set of tape alphabet symbols.</li>
+                <li><b>b</b> &isin; <b>&Gamma;</b> is the blank symbol (the only symbol allowed to occur on the tape infinitely often at any step during the computation).</li>
+                <li><b>&Sigma;</b> &sube; <b>&Gamma; \ {b}</b> is the set of input symbols.</li>
+                <li><b>&delta; : (Q \ F)</b> &Cross; <b>&Gamma; &rarr; Q</b> &Cross; <b>&Gamma;</b> &Cross; <b>{L, R}</b> is a partial function called the transition function, where L is left shift, R is right shift. (A relatively uncommon variant allows "no shift", say N, as a third element of the latter set.) If <b>&delta;</b> is not defined on the current state and the current tape symbol, then the machine halts.</li>
+                <li><b>q<sub>0</sub></b> &isin; <b>Q</b> in Q is the initial state.</li>
+                <li><b>F</b> &sube; <b>Q</b> is the set of final or accepting states. The initial tape contents is said to be accepted by <b>M</b> if it eventually halts in a state from <b>F</b>.</li>
+            </ul>
+            </p>
+            <p style="float:right; padding-right:30px">source : <a href="https://en.wikipedia.org/wiki/Turing_machine#Formal_definition">Wikipedia</a></p>
+        </div>
+        <div id="machine">
+            <div id="tape">
+                <div id="input">
+                    <p><h6 class="BoxTitle">Input Tape</h6></p>
+                    <input id="input_text"></input>
+                </div>
+                <div id="head_area">
+                </div>
+            </div>
+            <div id="setup">
+                <div id="tuples">
+                    <p><h6 class="BoxTitle">Tuples</h6></p>
+                    <div id="states">
+                        <label for="stateSymbols"> <b>Q</b> (comma seperated <b>,</b> )&nbsp;</label>
+                        <input type="text" id="stateSymbols"/>
+                    </div>
+                    <div id="tape_alphabets">
+                        <label for="tapeSymbols"> <b>&Gamma;</b> (comma seperated <b>,</b> )&nbsp;</label>
+                        <input type="text" id="tapeSymbols"/>
+                    </div>
+                    <div id="input_alphabets">
+                        <label for="inputSymbols"> <b>&Sigma;</b> (comma seperated <b>,</b> )&nbsp;</label>
+                        <input type="text" id="inputSymbols"/>
+                    </div>
+                    <div id="final_states">
+                        <label for="finalStates"> <b>F</b> (comma seperated <b>,</b> )&nbsp;</label>
+                        <input type="text" id="finalStates"/>
+                    </div>
+                    <div id="tupleBtns">
+                        <button onclick="resetTM()">Reset</button>
+                        <button onclick="generateTransFunc()">Done</button>
+                    </div>
+                </div>
+                <div id="transitionFunction">
+                    <p><h6 class="BoxTitle">Transition Function</h6></p>
+                </div>
+            </div>
+        </div>
+        <script src="TuringMachine.js"></script>
+    </BODY>
+</HTML>
