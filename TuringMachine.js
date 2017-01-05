@@ -191,5 +191,7 @@ function generateFinalStates() {
     inFinal.value = finalStates.toString();
 }
 function runTM() {
-    
+    //All program to run the Turing machine
+
+    //Validate input
 }
