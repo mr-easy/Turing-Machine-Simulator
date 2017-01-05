@@ -1,7 +1,41 @@
 var states, inputSymbols, tapeAlphabets, blank, finalStates, initialState;
+var resetBtn, doneBtn;
+//Input fields
+var inStates, inTape, inInp, inFinal;
 var err = false;
-function resetTM() {
 
+resetBtn = document.getElementById("resetBtn");
+doneBtn = document.getElementById("doneBtn");
+
+inStates = document.getElementById("stateSymbols");
+inTape = document.getElementById("tapeSymbols");
+inInp = document.getElementById("inputSymbols");
+inFinal = document.getElementById("finalStates");
+
+function resetTM() {
+    //remove the transition function table
+    var t = document.getElementById("transTable");
+    if(t != null) {
+        t.parentNode.removeChild(t);
+    }
+    //remove the transition table buttons
+    var b = document.getElementById("transFuncBtns");
+    if(b != null) {
+        b.parentNode.removeChild(b);
+    }
+
+    //Enable tuples buttons and input field values
+    resetBtn.disabled = false;
+    doneBtn.disabled = false;
+    inStates.value = "";
+    inStates.disabled = false;
+    inTape.value = "";
+    inTape.disabled = false;
+    inInp.value = "";
+    inInp.disabled = false;
+    inFinal.value = "";
+    inFinal.disabled = false;
+    err = false;
 }
 function generateTransFunc() {
     if(!err)
@@ -17,6 +51,12 @@ function generateTransFunc() {
         err = false;
         return ;
     }
+
+    doneBtn.disabled = true;
+    inStates.disabled = true;
+    inTape.disabled = true;
+    inInp.disabled = true;
+    inFinal.disabled = true;
 
     blank = "-";
     var i, j, s = "", statesOptions = "", tapeAlphaOptions = "", directionOptions = "";
@@ -67,11 +107,17 @@ function generateTransFunc() {
 
     t.innerHTML = s;
     document.getElementById("transitionFunction").appendChild(t);
-    t.style.border = "1px solid black";
+
+    //Adding buttons to table
+    var btns;
+    btns = document.createElement("div");
+    btns.setAttribute("id", "transFuncBtns");
+    btns.innerHTML = "<button id='transReset' onclick='resetTM()'>Reset</button><button id='run' onclick='runTM()'>Run</button>"
+    document.getElementById("transitionFunction").appendChild(btns);
 }
 function generateStates() {
     var i, j, s;
-    s = document.getElementById("stateSymbols").value.split(",");
+    s = inStates.value.split(",");
     states = new Array();
     for(i = 0; i < s.length; i++) {
         s[i] = s[i].trim();
@@ -79,15 +125,16 @@ function generateStates() {
             states.push(s[i]);
         }
     }
-    document.getElementById("stateSymbols").value = states.toString();
     if(states.length == 0) {
         err = true;
         alert('No states found!');
+    } else {
+        inStates.value = states.toString();
     }
 }
 function generateTapeAlphabets() {
     var i, j, s;
-    s = document.getElementById("tapeSymbols").value.split(",");
+    s = inTape.value.split(",");
     tapeAlphabets = new Array();
     for(i = 0; i < s.length; i++) {
         s[i] = s[i].trim();
@@ -95,15 +142,16 @@ function generateTapeAlphabets() {
             tapeAlphabets.push(s[i]);
         }
     }
-    document.getElementById("tapeSymbols").value = tapeAlphabets.toString();
     if(tapeAlphabets.length == 0) {
         err = true;
         alert('No Tape Alphabets found!');
+    } else {
+        inTape.value = tapeAlphabets.toString();
     }
 }
 function generateInputSymbols() {
     var i, j, s;
-    s = document.getElementById("inputSymbols").value.split(",");
+    s = inInp.value.split(",");
     inputSymbols = new Array();
     for(i = 0; i < s.length; i++) {
         s[i] = s[i].trim();
@@ -117,15 +165,16 @@ function generateInputSymbols() {
             }
         }
     }
-    document.getElementById("inputSymbols").value = inputSymbols.toString();
     if(inputSymbols.length == 0) {
         err = true;
         alert('No Input Alphabets found!');
+    } else {
+        inInp.value = inputSymbols.toString();
     }
 }
 function generateFinalStates() {
     var i, j, s;
-    s = document.getElementById("finalStates").value.split(",");
+    s = inFinal.value.split(",");
     finalStates = new Array();
     for(i = 0; i < s.length; i++) {
         s[i] = s[i].trim();
@@ -139,5 +188,8 @@ function generateFinalStates() {
             }
         }
     }
-    document.getElementById("finalStates").value = finalStates.toString();
+    inFinal.value = finalStates.toString();
+}
+function runTM() {
+    
 }

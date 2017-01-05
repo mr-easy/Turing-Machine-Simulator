@@ -70,3 +70,7 @@ body {
     margin-left:auto;
     margin-right:auto;
 }
+#transFuncBtns {
+    float: right;
+    margin: 2%;
+}
