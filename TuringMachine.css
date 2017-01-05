@@ -45,7 +45,7 @@ body {
     border: 1px solid #ff6666;
     margin: 0.5%;
     float: left;
-    width:48%;
+    width:37%;
 }
 #states, #tape_alphabets, #input_alphabets, #final_states {
     margin: 2px;
@@ -64,7 +64,7 @@ body {
     border: 1px solid #ff6666;
     margin: 0.5%;
     float: right;
-    width:48%;
+    width:60%;
 }
 #transTable {
     margin-left:auto;

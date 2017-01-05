@@ -4,13 +4,22 @@ function resetTM() {
 
 }
 function generateTransFunc() {
-    generateStates();
-    generateTapeAlphabets();
-    generateInputSymbols();
-    generateFinalStates();
+    if(!err)
+        generateStates();
+    if(!err)
+        generateTapeAlphabets();
+    if(!err)
+        generateInputSymbols();
+    if(!err)
+        generateFinalStates();
+
+    if(err) {
+        err = false;
+        return ;
+    }
 
     blank = "-";
-    var i, j, s = "", k = "";
+    var i, j, s = "", statesOptions = "", tapeAlphaOptions = "", directionOptions = "";
     var t = document.createElement("table");
     t.setAttribute("id", "transTable");
 
@@ -22,21 +31,36 @@ function generateTransFunc() {
     s += "<th>-</th></tr>";
 
     //preparing the options
-    k = "<select>";
-    k += "<option value='b'>-</option>";
+    statesOptions = "<select>";
+    statesOptions += "<option value='b'>-</option>";
     for(i = 0; i < states.length; i++) {
-        for(j = 0; j < tapeAlphabets.length; j++) {
-            k += "<option value=" + states[i] + tapeAlphabets[j] + "L>" + states[i] + ", " + tapeAlphabets[j] + ", L</option>";
-            k += "<option value=" + states[i] + tapeAlphabets[j] + "R>" + states[i] + ", " + tapeAlphabets[j] + ", R</option>";
-        }
+        statesOptions += "<option value=" + states[i] + ">" + states[i] + "</option>";
     }
-    k += "</select>"
+    statesOptions += "</select>"
+
+    tapeAlphaOptions = "<select>" + "<option value='b'>-</option>";
+    for(i = 0; i < tapeAlphabets.length; i++) {
+        tapeAlphaOptions += "<option value=" + tapeAlphabets[i] + ">" + tapeAlphabets[i] + "</option>";
+    }
+    tapeAlphaOptions += "</select>"
+
+    directionOptions = "<select><option value='b'>-</option><option value='L'>L</option><option value='R'>R</option></select>";
 
     for(i = 0; i < states.length; i++) {
         s += "<tr>";
-        s += "<td>" + states[i] + "</td>";
+        if(i == 0) {
+            if(finalStates.indexOf(states[i]) != -1)
+                s += "<td> &rarr;<b>" + states[i] + "</b></td>";
+            else
+                s += "<td> &rarr;" + states[i] + "</td>";
+        } else {
+            if(finalStates.indexOf(states[i]) != -1)
+                s += "<td><b>" + states[i] + "</b></td>";
+            else
+                s += "<td>" + states[i] + "</td>";
+        }
         for(j = 0; j <= tapeAlphabets.length; j++) {
-            s += "<td>" + k + "</td>"
+            s += "<td>" + statesOptions + tapeAlphaOptions + directionOptions + "</td>"
         }
         s += "</tr>";
     }
@@ -55,6 +79,11 @@ function generateStates() {
             states.push(s[i]);
         }
     }
+    document.getElementById("stateSymbols").value = states.toString();
+    if(states.length == 0) {
+        err = true;
+        alert('No states found!');
+    }
 }
 function generateTapeAlphabets() {
     var i, j, s;
@@ -65,6 +94,11 @@ function generateTapeAlphabets() {
         if(s[i] != "" && tapeAlphabets.indexOf(s[i]) == -1) {
             tapeAlphabets.push(s[i]);
         }
+    }
+    document.getElementById("tapeSymbols").value = tapeAlphabets.toString();
+    if(tapeAlphabets.length == 0) {
+        err = true;
+        alert('No Tape Alphabets found!');
     }
 }
 function generateInputSymbols() {
@@ -83,6 +117,11 @@ function generateInputSymbols() {
             }
         }
     }
+    document.getElementById("inputSymbols").value = inputSymbols.toString();
+    if(inputSymbols.length == 0) {
+        err = true;
+        alert('No Input Alphabets found!');
+    }
 }
 function generateFinalStates() {
     var i, j, s;
@@ -91,7 +130,14 @@ function generateFinalStates() {
     for(i = 0; i < s.length; i++) {
         s[i] = s[i].trim();
         if(s[i] != "" && finalStates.indexOf(s[i]) == -1) {
-            finalStates.push(s[i]);
+            if(states.indexOf(s[i]) != -1) {
+                finalStates.push(s[i]);
+            } else {
+                alert('Final states should be a subset of all States.');
+                err = true;
+                break;
+            }
         }
     }
+    document.getElementById("finalStates").value = finalStates.toString();
 }
